@@ -1,0 +1,47 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <meta name="robots" content="noindex, nofollow" />
+    <meta name="referrer" content="no-referrer" />
+    <meta name="theme-color" content="#090b0d" />
+    <title>Create Admin Password | Black R</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link href="https://fonts.googleapis.com/css2?family=Manrope:wght@400;500;600;700;800&display=swap" rel="stylesheet" />
+    <link rel="stylesheet" href="../../styles.css" />
+    <link rel="stylesheet" href="../admin.css" />
+    <script src="setup.js" defer></script>
+  </head>
+  <body class="admin-body">
+    <main>
+      <section class="login-view">
+        <div class="login-panel">
+          <a class="brand" href="../../index.html" aria-label="Black R home">
+            <span class="brand-logo" aria-hidden="true"><img src="../../assets/black-r-logo.png" alt="" /></span>
+          </a>
+          <div class="login-copy">
+            <p class="eyebrow">Secure administration</p>
+            <h1>Create your password</h1>
+            <p>Choose the password you will use to access the Black R submission dashboard.</p>
+          </div>
+          <form class="login-form" data-password-form>
+            <label for="new-password">New password</label>
+            <input id="new-password" name="password" type="password" autocomplete="new-password" required minlength="12" maxlength="200" />
+            <p class="password-guidance">Use at least 12 characters with uppercase, lowercase, a number, and a symbol.</p>
+            <label for="confirm-password">Confirm new password</label>
+            <input id="confirm-password" name="confirm_password" type="password" autocomplete="new-password" required minlength="12" maxlength="200" />
+            <button class="button button-primary" type="submit">Create password</button>
+          </form>
+          <p class="login-status" data-setup-status aria-live="polite"></p>
+          <div class="setup-success" data-setup-success hidden>
+            <strong>Your password has been created.</strong>
+            <a class="button button-primary" href="../">Continue to admin dashboard</a>
+          </div>
+          <a class="back-link" href="../../index.html">&larr; Return to website</a>
+        </div>
+      </section>
+    </main>
+  </body>
+</html>

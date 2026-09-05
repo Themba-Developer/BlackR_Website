@@ -4,7 +4,7 @@
   "type": "module",
   "scripts": {
     "build": "node scripts/build.mjs",
-    "check": "node --check functions/[[path]].js && node --check admin/admin.js && node --check js/forms.js && node scripts/build.mjs",
+    "check": "node --check functions/[[path]].js && node --check admin/admin.js && node --check admin/setup/setup.js && node --check js/forms.js && node scripts/build.mjs",
     "dev": "npm run build && npx wrangler@latest pages dev dist --d1 DB=black-r-onboarding --persist-to .wrangler/state",
     "deploy": "npm run build && npx wrangler@latest pages deploy dist --project-name black-r-website"
   }

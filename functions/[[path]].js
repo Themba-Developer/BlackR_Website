@@ -454,6 +454,28 @@ async function sessionKey(secret) {
   );
 }
 
+async function passwordVerifier(password, env) {
+  if (!env.ADMIN_SESSION_SECRET) {
+    throw new RequestError("Administrator login is not configured yet.", 503);
+  }
+  const signature = await crypto.subtle.sign(
+    "HMAC",
+    await sessionKey(env.ADMIN_SESSION_SECRET),
+    new TextEncoder().encode(password),
+  );
+  return bytesBase64Url(new Uint8Array(signature));
+}
+
+function adminPassword(value) {
+  if (typeof value !== "string" || value.length < 12 || value.length > 200) {
+    throw new RequestError("Use a password between 12 and 200 characters.");
+  }
+  if (!/[a-z]/.test(value) || !/[A-Z]/.test(value) || !/[0-9]/.test(value) || !/[^A-Za-z0-9]/.test(value)) {
+    throw new RequestError("Include an uppercase letter, lowercase letter, number, and symbol.");
+  }
+  return value;
+}
+
 async function makeSession(emailAddress, env) {
   if (!env.ADMIN_SESSION_SECRET) throw new RequestError("Administrator login is not configured yet.", 503);
   const issuedAt = Math.floor(Date.now() / 1000);
@@ -533,19 +555,24 @@ async function recordFailedLogin(key, env) {
 async function login(request, env) {
   if (request.method !== "POST") return json({error: "Method not allowed."}, 405);
   if (!sameOrigin(request)) throw new RequestError("Cross-origin sign-in is not allowed.", 403);
-  if (!env.ADMIN_PASSWORD_HASH || !env.ADMIN_SESSION_SECRET) {
+  if (!env.ADMIN_SESSION_SECRET) {
     throw new RequestError("Administrator login is not configured yet.", 503);
   }
   const rateKey = await checkLoginRateLimit(request, env);
   const body = await requestJson(request, 5000);
   const emailAddress = email(body.email, "Email address");
   const password = text(body.password, "Password", 200, true);
+  const credential = await env.DB.prepare(
+    "SELECT password_hash FROM admin_credentials WHERE email = ?1",
+  ).bind(emailAddress).first();
+  const storedVerifier = credential?.password_hash || env.ADMIN_PASSWORD_HASH || "";
+  if (!storedVerifier) throw new RequestError("Administrator login is not configured yet.", 503);
   let validPassword = false;
   try {
     validPassword = await crypto.subtle.verify(
       "HMAC",
       await sessionKey(env.ADMIN_SESSION_SECRET),
-      base64UrlBytes(env.ADMIN_PASSWORD_HASH),
+      base64UrlBytes(storedVerifier),
       new TextEncoder().encode(password),
     );
   } catch {
@@ -563,6 +590,41 @@ async function login(request, env) {
     200,
     {"Set-Cookie": `blackr_admin=${session}; Path=/; HttpOnly; Secure; SameSite=Strict; Max-Age=28800`},
   );
+}
+
+async function setAdminPassword(request, env) {
+  if (request.method !== "POST") return json({error: "Method not allowed."}, 405);
+  if (!sameOrigin(request)) throw new RequestError("Cross-origin password setup is not allowed.", 403);
+  const body = await requestJson(request, 5000);
+  const token = text(body.token, "Setup link", 200, true);
+  const password = adminPassword(body.password);
+  const tokenHash = await sha256(token);
+  const verifier = await passwordVerifier(password, env);
+  const now = new Date().toISOString();
+
+  const [credentialResult, tokenResult] = await env.DB.batch([
+    env.DB.prepare(`
+      INSERT INTO admin_credentials (email, password_hash, password_set_at, updated_at)
+      SELECT email, ?1, ?2, ?2
+      FROM admin_password_setup_tokens
+      WHERE token_hash = ?3 AND used_at IS NULL AND expires_at > ?2
+      ON CONFLICT(email) DO UPDATE SET
+        password_hash = excluded.password_hash,
+        password_set_at = excluded.password_set_at,
+        updated_at = excluded.updated_at
+    `).bind(verifier, now, tokenHash),
+    env.DB.prepare(`
+      UPDATE admin_password_setup_tokens
+      SET used_at = ?1
+      WHERE token_hash = ?2 AND used_at IS NULL AND expires_at > ?1
+    `).bind(now, tokenHash),
+  ]);
+
+  if (credentialResult.meta.changes !== 1 || tokenResult.meta.changes !== 1) {
+    throw new RequestError("This password setup link is invalid, expired, or has already been used.", 400);
+  }
+  await env.DB.prepare("DELETE FROM admin_login_rate_limits").run();
+  return json({success: true});
 }
 
 function logout(request) {
@@ -677,6 +739,7 @@ async function updateSubmission(request, env, identity, type, id) {
 async function admin(request, env, pathname) {
   if (pathname === "/api/admin/login") return login(request, env);
   if (pathname === "/api/admin/logout") return logout(request);
+  if (pathname === "/api/admin/set-password") return setAdminPassword(request, env);
   const identity = await sessionIdentity(request, env);
   if (pathname === "/api/admin/session") {
     if (request.method !== "GET") return json({error: "Method not allowed."}, 405);

@@ -18,7 +18,7 @@ The original Hostinger recovery file is retained at `archive/original-hostinger-
 - D1 database `black-r-onboarding` stores all text submissions and private review notes.
 - Private R2 bucket `black-r-onboarding-files` stores uploaded supporting documents.
 - Turnstile validates public form submissions before any data is stored.
-- The admin dashboard uses an email/password login backed by Cloudflare secrets and a signed, secure, HTTP-only session cookie.
+- The admin dashboard uses an email/password login backed by a keyed password verifier in D1 and a signed, secure, HTTP-only session cookie.
 - Login and public submission attempts are rate-limited in D1.
 
 Each document is limited to 8 MB. The server checks the actual file signature, stores the object in a non-public R2 bucket, and exposes downloads only through the authenticated admin API.
@@ -57,7 +57,7 @@ npx --yes wrangler@latest pages deploy dist --project-name black-r-website --bra
 
 ## Admin access
 
-Only the email in `ADMIN_EMAILS` inside `wrangler.toml` can sign in. The password itself is never stored; Cloudflare holds a keyed verifier as a write-only secret.
+Only the email in `ADMIN_EMAILS` inside `wrangler.toml` can sign in. The password itself is never stored; a keyed verifier is stored in D1. Passwords are created from private, expiring, one-time setup links whose raw tokens are never stored.
 
 To invalidate every existing admin session and issue a new random password:
 

@@ -146,6 +146,26 @@
   font-size: 11px;
 }
 
+.password-guidance {
+  margin: 2px 0 4px;
+  color: #7f8791;
+  font-size: 10px;
+  line-height: 1.5;
+}
+
+.setup-success {
+  display: grid;
+  gap: 18px;
+  margin-top: 22px;
+  color: #dce1e6;
+  font-size: 13px;
+}
+
+.setup-success .button {
+  width: 100%;
+  text-align: center;
+}
+
 .access-loader {
   width: 28px;
   height: 28px;
