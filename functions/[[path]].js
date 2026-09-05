@@ -257,6 +257,13 @@ async function verifyTurnstile(env, request, token) {
   });
   const result = await verification.json();
   const hostname = new URL(request.url).hostname;
+  const errorCodes = Array.isArray(result["error-codes"]) ? result["error-codes"] : [];
+  if (errorCodes.includes("invalid-input-secret") || errorCodes.includes("missing-input-secret")) {
+    throw new RequestError("Form protection is misconfigured. Please contact Black R support.", 503);
+  }
+  if (errorCodes.includes("internal-error")) {
+    throw new RequestError("Form protection is temporarily unavailable. Please try again.", 503);
+  }
   if (!result.success || result.hostname !== hostname || result.action !== "onboarding") {
     throw new RequestError("The security check was unsuccessful. Please try again.", 403);
   }

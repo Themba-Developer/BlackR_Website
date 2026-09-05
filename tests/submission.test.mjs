@@ -97,3 +97,21 @@ test("an impossibly fast submission returns an error instead of fake success", a
   assert.equal(result.reference, undefined);
   assert.equal(sqlCalls.length, 0);
 });
+
+test("a stale Turnstile secret is reported as configuration failure", async (t) => {
+  const sqlCalls = [];
+  t.mock.method(globalThis, "fetch", async () => Response.json({
+    success: false,
+    "error-codes": ["invalid-input-secret"],
+  }));
+
+  const response = await onRequest({
+    request: submissionRequest(),
+    env: submissionEnv(sqlCalls),
+  });
+  const result = await response.json();
+
+  assert.equal(response.status, 503);
+  assert.match(result.error, /misconfigured/i);
+  assert.equal(sqlCalls.length, 0);
+});
