@@ -1,0 +1,112 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <meta name="robots" content="noindex, nofollow" />
+    <meta name="theme-color" content="#090b0d" />
+    <title>Admin Dashboard | Black R</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link href="https://fonts.googleapis.com/css2?family=Manrope:wght@400;500;600;700;800&display=swap" rel="stylesheet" />
+    <link rel="stylesheet" href="../styles.css" />
+    <link rel="stylesheet" href="admin.css" />
+    <script src="admin.js" defer></script>
+  </head>
+  <body class="admin-body">
+    <main>
+      <section class="login-view" data-login-view>
+        <div class="login-panel">
+          <a class="brand" href="../index.html" aria-label="Black R home">
+            <img class="brand-logo" src="../assets/black-r-logo.png" alt="" />
+          </a>
+          <div class="login-copy">
+            <p class="eyebrow">Secure administration</p>
+            <h1>Submission dashboard</h1>
+            <p>Cloudflare is verifying your secure administrator session.</p>
+          </div>
+          <div class="access-loader" aria-hidden="true"></div>
+          <p class="login-status" data-login-status aria-live="polite">Verifying secure access…</p>
+          <form class="login-form" data-login-form hidden>
+            <label for="admin-email">Email address</label>
+            <input id="admin-email" name="email" type="email" value="mahlangu843@gmail.com" autocomplete="username" required />
+            <label for="admin-password">Password</label>
+            <input id="admin-password" name="password" type="password" autocomplete="current-password" required maxlength="200" />
+            <button class="button button-primary" type="submit">Sign in securely</button>
+          </form>
+          <button class="button button-primary access-retry" type="button" data-access-retry hidden>Try again</button>
+          <a class="back-link" href="../index.html">&larr; Return to website</a>
+        </div>
+      </section>
+
+      <section class="dashboard" data-dashboard hidden>
+        <aside class="admin-sidebar">
+          <a class="brand" href="../index.html" aria-label="Black R home">
+            <img class="brand-logo" src="../assets/black-r-logo.png" alt="" />
+          </a>
+          <nav class="admin-nav" aria-label="Submission types">
+            <button type="button" class="is-active" data-view="school">
+              <span>S</span><span>School applications<small data-school-count>0</small></span>
+            </button>
+            <button type="button" data-view="parent">
+              <span>P</span><span>Parent applications<small data-parent-count>0</small></span>
+            </button>
+          </nav>
+          <div class="sidebar-user">
+            <span class="user-avatar" data-user-avatar>A</span>
+            <div><strong data-user-name>Administrator</strong><small data-user-email></small></div>
+          </div>
+          <button class="sign-out" type="button" data-sign-out>Sign out</button>
+        </aside>
+
+        <div class="admin-content">
+          <header class="dashboard-header">
+            <div><p class="eyebrow">Black R operations</p><h1 data-view-title>School applications</h1></div>
+            <button class="refresh-button" type="button" data-refresh aria-label="Refresh submissions">Refresh</button>
+          </header>
+
+          <section class="stat-grid" aria-label="Submission statistics">
+            <article><span>Total applications</span><strong data-stat-total>0</strong></article>
+            <article><span>New</span><strong data-stat-new>0</strong></article>
+            <article><span>In review</span><strong data-stat-reviewing>0</strong></article>
+            <article><span>Approved</span><strong data-stat-approved>0</strong></article>
+          </section>
+
+          <section class="records-panel">
+            <div class="records-toolbar">
+              <label class="search-field"><span class="sr-only">Search applications</span><input type="search" placeholder="Search name, reference or email" data-search /></label>
+              <label class="filter-field"><span class="sr-only">Filter by status</span><select data-status-filter><option value="all">All statuses</option><option value="new">New</option><option value="reviewing">Reviewing</option><option value="approved">Approved</option><option value="rejected">Rejected</option></select></label>
+            </div>
+
+            <div class="table-wrap">
+              <table>
+                <thead><tr><th>Reference</th><th>Applicant</th><th>Contact</th><th>Location</th><th>Submitted</th><th>Status</th><th><span class="sr-only">Open</span></th></tr></thead>
+                <tbody data-records></tbody>
+              </table>
+            </div>
+            <div class="records-message" data-records-message>Loading applications…</div>
+          </section>
+        </div>
+      </section>
+    </main>
+
+    <dialog class="detail-dialog" data-detail-dialog>
+      <div class="dialog-header">
+        <div><p class="eyebrow" data-detail-reference>Application</p><h2 data-detail-title>Application details</h2></div>
+        <button type="button" class="dialog-close" data-dialog-close aria-label="Close details">&times;</button>
+      </div>
+      <div class="dialog-body">
+        <section class="detail-grid" data-detail-grid></section>
+        <section class="document-section">
+          <h3>Supporting documents</h3>
+          <div class="document-list" data-document-list></div>
+        </section>
+        <section class="review-section">
+          <div class="admin-field"><label for="review-status">Application status</label><select id="review-status" data-review-status><option value="new">New</option><option value="reviewing">Reviewing</option><option value="approved">Approved</option><option value="rejected">Rejected</option></select></div>
+          <div class="admin-field"><label for="admin-notes">Private admin notes</label><textarea id="admin-notes" data-admin-notes placeholder="Add review notes. These are never shown publicly."></textarea></div>
+          <div class="review-actions"><button class="button button-primary" type="button" data-save-review>Save review</button><p data-review-status-message aria-live="polite"></p></div>
+        </section>
+      </div>
+    </dialog>
+  </body>
+</html>

@@ -1,0 +1,16 @@
+name = "black-r-website"
+pages_build_output_dir = "dist"
+compatibility_date = "2026-09-05"
+
+[[d1_databases]]
+binding = "DB"
+database_name = "black-r-onboarding"
+database_id = "50536710-b6c9-4462-81d1-ac4858b7b1a5"
+migrations_dir = "migrations"
+
+[[r2_buckets]]
+binding = "FILES"
+bucket_name = "black-r-onboarding-files"
+
+[vars]
+ADMIN_EMAILS = "mahlangu843@gmail.com"

@@ -1,0 +1,8 @@
+dist/
+.wrangler/
+.dev.vars
+node_modules/
+*.local
+.agents/
+skills-lock.json
+.tmp-*

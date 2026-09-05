@@ -1,0 +1,124 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <meta name="description" content="Register a school with the Black R integrated school supply chain." />
+    <meta name="theme-color" content="#090b0d" />
+    <title>School Onboarding | Black R</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link href="https://fonts.googleapis.com/css2?family=Manrope:wght@400;500;600;700;800&display=swap" rel="stylesheet" />
+    <link rel="stylesheet" href="styles.css" />
+    <link rel="stylesheet" href="form.css" />
+    <script src="js/config.js" defer></script>
+    <script src="script.js" defer></script>
+    <script src="https://challenges.cloudflare.com/turnstile/v0/api.js?render=explicit" defer></script>
+    <script src="js/forms.js" defer></script>
+  </head>
+  <body class="onboarding-body">
+    <a class="skip-link" href="#application">Skip to application</a>
+    <header class="site-header is-scrolled" data-header>
+      <div class="container header-inner">
+        <a class="brand" href="index.html" aria-label="Black R home">
+          <img class="brand-logo" src="assets/black-r-logo.png" alt="" />
+        </a>
+        <button class="menu-toggle" type="button" aria-expanded="false" aria-controls="form-navigation" data-menu-toggle><span class="sr-only">Open navigation</span><span></span><span></span><span></span></button>
+        <nav id="form-navigation" class="primary-nav simple-nav" aria-label="Page navigation" data-menu>
+          <a href="index.html">Home</a>
+          <a href="parents-onboarding.html">Parent onboarding</a>
+          <a class="nav-cta" href="index.html#contact">Contact</a>
+        </nav>
+      </div>
+    </header>
+
+    <main class="onboarding-main" id="application">
+      <div class="container onboarding-shell">
+        <aside class="onboarding-intro">
+          <p class="eyebrow">School portal</p>
+          <h1>Register your <span>school shop</span></h1>
+          <p>Join the school-to-factory network. Complete the information below so the Black R team can review your school and procurement requirements.</p>
+          <div class="form-progress" aria-label="Application sections">
+            <span data-step="1">School</span>
+            <span data-step="2">Contacts</span>
+            <span data-step="3">Enrolment</span>
+          </div>
+        </aside>
+
+        <form class="onboarding-form" data-onboarding-form="school">
+          <div class="honeypot" aria-hidden="true">
+            <label for="school-website">Website</label>
+            <input id="school-website" name="website" type="text" tabindex="-1" autocomplete="off" />
+          </div>
+
+          <fieldset class="form-section">
+            <legend>School information</legend>
+            <div class="field-grid">
+              <div class="field full"><label for="school-name">School name <span class="required">*</span></label><input id="school-name" name="school_name" type="text" placeholder="Enter school name" autocomplete="organization" required maxlength="160" /></div>
+              <div class="field"><label for="emis-number">EMIS number <span class="required">*</span></label><input id="emis-number" name="emis_number" type="text" inputmode="numeric" placeholder="Enter EMIS number" required maxlength="30" /></div>
+              <div class="field"><label for="district">District</label><input id="district" name="district" type="text" placeholder="Enter district" maxlength="120" /></div>
+              <div class="field"><label for="circuit-name">Circuit name</label><input id="circuit-name" name="circuit_name" type="text" placeholder="Enter school circuit" maxlength="120" /></div>
+              <div class="field full"><label for="school-street">Street address</label><input id="school-street" name="street_address" type="text" autocomplete="street-address" maxlength="200" /></div>
+              <div class="field"><label for="school-city">City</label><input id="school-city" name="city" type="text" autocomplete="address-level2" maxlength="100" /></div>
+              <div class="field"><label for="school-province">Province</label><input id="school-province" name="province" type="text" autocomplete="address-level1" maxlength="100" /></div>
+              <div class="field"><label for="school-postal">ZIP / postal code</label><input id="school-postal" name="postal_code" type="text" autocomplete="postal-code" maxlength="20" /></div>
+            </div>
+          </fieldset>
+
+          <fieldset class="form-section">
+            <legend>Principal and SGB contacts</legend>
+            <div class="field-grid three-columns">
+              <div class="field"><label for="principal-title">Principal's title</label><select id="principal-title" name="principal_title"><option value="">Select title</option><option>Mr</option><option>Mrs</option><option>Miss</option><option>Dr</option></select></div>
+              <div class="field"><label for="principal-first">Principal's first name <span class="required">*</span></label><input id="principal-first" name="principal_first_name" type="text" autocomplete="given-name" required maxlength="100" /></div>
+              <div class="field"><label for="principal-surname">Principal's surname</label><input id="principal-surname" name="principal_surname" type="text" autocomplete="family-name" maxlength="100" /></div>
+              <div class="field"><label for="principal-phone">Phone number <span class="required">*</span></label><input id="principal-phone" name="principal_phone" type="tel" autocomplete="tel" required maxlength="30" /></div>
+              <div class="field"><label for="principal-email">Email address <span class="required">*</span></label><input id="principal-email" name="principal_email" type="email" autocomplete="email" required maxlength="254" /></div>
+            </div>
+            <div class="field-grid three-columns" style="margin-top: 26px">
+              <div class="field"><label for="sgb-title">SGB title</label><select id="sgb-title" name="sgb_title"><option value="">Select title</option><option>Mr</option><option>Mrs</option><option>Miss</option><option>Dr</option></select></div>
+              <div class="field"><label for="sgb-first">SGB first name <span class="required">*</span></label><input id="sgb-first" name="sgb_first_name" type="text" required maxlength="100" /></div>
+              <div class="field"><label for="sgb-surname">SGB surname</label><input id="sgb-surname" name="sgb_surname" type="text" maxlength="100" /></div>
+              <div class="field"><label for="sgb-phone">SGB phone number <span class="required">*</span></label><input id="sgb-phone" name="sgb_phone" type="tel" required maxlength="30" /></div>
+              <div class="field"><label for="sgb-email">SGB email address <span class="required">*</span></label><input id="sgb-email" name="sgb_email" type="email" required maxlength="254" /></div>
+            </div>
+          </fieldset>
+
+          <fieldset class="form-section">
+            <legend>Grades and enrolment</legend>
+            <div class="field-grid">
+              <div class="field"><label for="grade-range">Select grades <span class="required">*</span></label><select id="grade-range" name="grade_range" required><option value="">School grades</option><option value="r-7">Grade R to Grade 7</option><option value="r-9">Grade R to Grade 9</option><option value="8-12">Grade 8 to Grade 12</option></select></div>
+              <div class="field"><label for="academic-year">Academic year</label><input id="academic-year" name="academic_year" type="text" placeholder="e.g. 2026/2027" maxlength="20" /></div>
+            </div>
+            <div class="grade-heading" aria-hidden="true"><span>Grade</span><span>Boys</span><span>Girls</span></div>
+            <div data-grade-grid></div>
+            <div class="field total-row"><label for="total-enrollment">Total enrolment</label><input id="total-enrollment" name="total_enrollment" type="number" readonly value="0" /></div>
+          </fieldset>
+
+          <fieldset class="form-section">
+            <legend>Products and documents</legend>
+            <p class="group-label">Uniform requirements</p>
+            <div class="choice-grid">
+              <label class="choice-card"><input type="checkbox" name="uniform_options" value="basic" />Basic school uniform and sportswear</label>
+              <label class="choice-card"><input type="checkbox" name="uniform_options" value="premium" />Premium school uniform and sportswear</label>
+            </div>
+            <div class="field-grid" style="margin-top: 24px">
+              <div class="field"><label for="school-logo">Upload school logo</label><input id="school-logo" name="school_logo" type="file" accept="image/jpeg,image/png,image/webp" /><p class="field-note">JPG, PNG or WebP. Maximum 8 MB.</p></div>
+              <div class="field"><label for="school-declaration">Upload signed declaration</label><input id="school-declaration" name="signed_declaration" type="file" accept="image/jpeg,image/png,image/webp,application/pdf,.doc,.docx" /><p class="field-note">PDF, Word or image. Maximum 8 MB.</p></div>
+            </div>
+            <label class="consent-field"><input name="consent" type="checkbox" required /><span>I confirm that the information supplied is accurate and consent to Black R securely storing it for onboarding and procurement purposes. <span class="required">*</span></span></label>
+          </fieldset>
+
+          <div class="form-actions">
+            <div class="form-submit-area">
+              <div class="turnstile-wrap" data-turnstile aria-label="Security check"></div>
+              <button class="button button-primary" type="submit">Submit application</button>
+            </div>
+            <p class="form-status" data-form-status aria-live="polite"></p>
+          </div>
+        </form>
+      </div>
+    </main>
+
+    <footer class="site-footer compact-footer"><div class="container footer-bottom"><p>&copy; <span data-year>2026</span> Black R. Industrial-grade procurement.</p><a href="mailto:support@blackr.co.za">Need help? support@blackr.co.za</a></div></footer>
+  </body>
+</html>
