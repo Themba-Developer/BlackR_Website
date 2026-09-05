@@ -113,5 +113,6 @@ test("a stale Turnstile secret is reported as configuration failure", async (t) 
 
   assert.equal(response.status, 503);
   assert.match(result.error, /misconfigured/i);
-  assert.equal(sqlCalls.length, 0);
+  assert.equal(sqlCalls.length, 1);
+  assert.ok(sqlCalls[0].includes("submission_rate_limits"));
 });

@@ -234,7 +234,7 @@ async function enforceRateLimit(env, request) {
   `).bind(ipHash, timestamp, cutoff).first();
   if ((result?.request_count || 0) > 5) {
     throw new RequestError(
-      "Too many applications were sent from this connection. Please try again later.",
+      "Too many application attempts were made from this connection. Please try again later.",
       429,
     );
   }
@@ -508,8 +508,8 @@ async function submit(request, env) {
   }
   if (body.payload.consent !== true) throw new RequestError("Consent is required.");
 
-  await verifyTurnstile(env, request, body.turnstile_token);
   await enforceRateLimit(env, request);
+  await verifyTurnstile(env, request, body.turnstile_token);
   const data = body.type === "school" ? normalizeSchool(body.payload) : normalizeParent(body.payload);
   const documents = await validateDocuments(body.type, formData);
   if (documents.length && !env.FILES) {
