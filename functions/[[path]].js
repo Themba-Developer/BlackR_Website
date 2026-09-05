@@ -440,7 +440,7 @@ async function parseSubmission(request) {
     body: {
       type,
       payload,
-      website: formData.get("website"),
+      company_fax: formData.get("company_fax"),
       started_at: formData.get("started_at"),
       turnstile_token: formData.get("turnstile_token"),
     },
@@ -490,8 +490,11 @@ async function submit(request, env) {
     throw new RequestError("Invalid submission type.");
   }
   const startedAt = Number(body.started_at || 0);
-  if (text(body.website, "Website", 200) || !startedAt || Date.now() - startedAt < 1500) {
-    return json({reference: makeReference(body.type)}, 201);
+  if (text(body.company_fax, "Company fax", 200)) {
+    throw new RequestError("The form could not be validated. Refresh the page and try again.");
+  }
+  if (!startedAt || Date.now() - startedAt < 1500) {
+    throw new RequestError("Please wait a moment before submitting the form.");
   }
   if (!body.payload || typeof body.payload !== "object" || Array.isArray(body.payload)) {
     throw new RequestError("Application details are invalid.");
@@ -549,7 +552,7 @@ async function submit(request, env) {
     throw error;
   }
 
-  return json({reference}, 201);
+  return json({reference, stored: true}, 201);
 }
 
 function base64UrlBytes(value) {

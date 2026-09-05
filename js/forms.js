@@ -197,6 +197,10 @@
     event.preventDefault();
     setStatus("", "");
 
+    // Password managers occasionally fill hidden text fields despite autocomplete hints.
+    // A trusted submit proves a person interacted with the form, so clear the bot trap.
+    if (event.isTrusted && form.elements.company_fax) form.elements.company_fax.value = "";
+
     if (!form.reportValidity()) return;
     if (!isConfigured()) {
       setStatus("The secure form service is being connected. Please try again shortly.", "error");
@@ -214,7 +218,7 @@
       const requestBody = new FormData();
       requestBody.set("type", type);
       requestBody.set("payload", JSON.stringify(type === "school" ? schoolPayload() : parentPayload()));
-      requestBody.set("website", value("website"));
+      requestBody.set("company_fax", value("company_fax"));
       requestBody.set("started_at", String(startedAt));
       requestBody.set("turnstile_token", turnstileToken);
       files.forEach(({field, file}) => requestBody.set(field, file, file.name));
@@ -225,7 +229,9 @@
       });
 
       const result = await response.json().catch(() => ({}));
-      if (!response.ok) throw new Error(result.error || "Your form could not be submitted.");
+      if (!response.ok || result.stored !== true || !result.reference) {
+        throw new Error(result.error || "The server did not confirm that your application was stored. Please try again.");
+      }
 
       form.reset();
       startedAt = Date.now();
