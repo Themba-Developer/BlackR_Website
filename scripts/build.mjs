@@ -13,6 +13,8 @@ const files = [
   "homepage.css",
   "index.html",
   "parents-onboarding.html",
+  "products.css",
+  "products.html",
   "school-onboarding.html",
   "script.js",
   "styles.css",

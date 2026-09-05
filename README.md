@@ -5,6 +5,7 @@ Black R is a static Cloudflare Pages website with server-side form processing, a
 ## Live application
 
 - Public site: `https://black-r-website.pages.dev/`
+- Products: `https://black-r-website.pages.dev/products`
 - School onboarding: `https://black-r-website.pages.dev/school-onboarding`
 - Parent onboarding: `https://black-r-website.pages.dev/parents-onboarding`
 - Admin dashboard: `https://black-r-website.pages.dev/admin/`
