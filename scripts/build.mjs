@@ -9,6 +9,7 @@ const files = [
   "_headers",
   "_routes.json",
   "form.css",
+  "homepage.css",
   "index.html",
   "parents-onboarding.html",
   "school-onboarding.html",
