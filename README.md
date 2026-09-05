@@ -1,6 +1,6 @@
 # Black R website
 
-Black R is a static Cloudflare Pages website with server-side form processing, a D1 submissions database, Turnstile bot protection, and a private admin dashboard. It no longer depends on Hostinger, Firebase, or Supabase.
+Black R is a static Cloudflare Pages website with server-side form processing, a D1 submissions database, Turnstile bot protection, a private admin dashboard, and a visitor-facing AI assistant. It no longer depends on Hostinger, Firebase, or Supabase.
 
 ## Live application
 
@@ -15,6 +15,8 @@ The original Hostinger recovery file is retained at `archive/original-hostinger-
 
 - Static HTML, CSS, and JavaScript are served by Cloudflare Pages.
 - Pages Functions under `functions/` expose only `/api/*` routes.
+- The website assistant uses the open-weight Llama 3.1 8B Instruct Fast model through a server-side Cloudflare Workers AI binding.
+- Assistant conversations are sent only for the current response and are not stored by this application. Suggested tasks are allowlisted links that require a visitor click.
 - D1 database `black-r-onboarding` stores all text submissions and private review notes.
 - Private R2 bucket `black-r-onboarding-files` stores uploaded supporting documents.
 - Turnstile validates public form submissions before any data is stored.
@@ -52,6 +54,8 @@ npm run check
 npx --yes wrangler@latest d1 migrations apply black-r-onboarding --remote
 npx --yes wrangler@latest pages deploy dist --project-name black-r-website --branch main
 ```
+
+The `AI` binding is declared in `wrangler.toml`. Cloudflare Workers AI usage applies in both local and production environments, and the chat endpoint limits each connection to 20 messages per 10 minutes.
 
 `npm run check` validates the browser and Function JavaScript, then rebuilds the allowlisted files in `dist/`. Never deploy the repository root because it contains the archived Hostinger snapshot and source-only files.
 

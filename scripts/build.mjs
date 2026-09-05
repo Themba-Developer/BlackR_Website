@@ -8,6 +8,7 @@ const files = [
   ".nojekyll",
   "_headers",
   "_routes.json",
+  "chatbot.css",
   "form.css",
   "homepage.css",
   "index.html",
