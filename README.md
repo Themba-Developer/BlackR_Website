@@ -57,7 +57,7 @@ npx --yes wrangler@latest pages deploy dist --project-name black-r-website --bra
 
 ## Admin access
 
-Only the email in `ADMIN_EMAILS` inside `wrangler.toml` can sign in. The password itself is never stored; a keyed verifier is stored in D1. Passwords are created from private, expiring, one-time setup links whose raw tokens are never stored.
+Only the email addresses listed in `ADMIN_EMAILS` inside `wrangler.toml` can sign in. Passwords themselves are never stored; keyed verifiers are stored in D1. Passwords are created from private, expiring, one-time setup links whose raw tokens are never stored.
 
 To invalidate every existing admin session and issue a new random password:
 

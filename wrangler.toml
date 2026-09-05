@@ -13,4 +13,4 @@ binding = "FILES"
 bucket_name = "black-r-onboarding-files"
 
 [vars]
-ADMIN_EMAILS = "mahlangu843@gmail.com"
+ADMIN_EMAILS = "mahlangu843@gmail.com,jchiliza@blackr.co.za"
