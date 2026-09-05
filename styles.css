@@ -110,17 +110,26 @@ a {
 }
 
 .brand-logo {
+  position: relative;
   display: block;
+  overflow: hidden;
   width: 74px;
   height: 74px;
-  padding: 3px;
-  border-radius: 6px;
-  background: white;
-  box-shadow: 0 4px 18px rgba(0, 0, 0, 0.18);
-  object-fit: contain;
 }
 
-.footer-brand .brand-logo { width: 170px; height: 170px; padding: 5px; }
+.brand-logo img {
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  display: block;
+  width: 190px;
+  height: 190px;
+  max-width: none;
+  transform: translate(-50%, -50%);
+}
+
+.footer-brand .brand-logo { width: 170px; height: 170px; }
+.footer-brand .brand-logo img { width: 436px; height: 436px; }
 
 .primary-nav {
   display: flex;
@@ -683,6 +692,7 @@ a {
   .container { width: min(calc(100% - 32px), var(--max-width)); }
   .section { padding: 86px 0; }
   .brand-logo { width: 60px; height: 60px; }
+  .brand-logo img { width: 154px; height: 154px; }
   .hero { min-height: 690px; background-position: 58% center; }
   .hero h1 { font-size: clamp(46px, 15vw, 68px); }
   .hero-copy { margin-top: 28px; font-size: 14px; }
